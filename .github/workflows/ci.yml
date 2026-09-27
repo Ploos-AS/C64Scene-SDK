@@ -26,7 +26,7 @@ jobs:
   differential-sceneasm:
     runs-on: ubuntu-latest
     env:
-      SCENEASM_COMMIT: 32e11076565153b224dbcd09c9b6a0cce1c13f87
+      SCENEASM_COMMIT: f8fa1f209588e7bea17adff6c88f634259e1dd5e
     steps:
       - name: Checkout C64Scene
         uses: actions/checkout@v4
@@ -50,6 +50,11 @@ jobs:
         env:
           SCENEASM: ${{ github.workspace }}/.ci/SceneASM/target/release/sceneasm
         run: make differential-hello
+
+      - name: Differential stable-raster
+        env:
+          SCENEASM: ${{ github.workspace }}/.ci/SceneASM/target/release/sceneasm
+        run: make differential-stable
 
       - name: Preserve differential artifacts
         if: always()
