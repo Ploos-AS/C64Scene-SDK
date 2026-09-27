@@ -14,7 +14,7 @@ DOUBLE_SRC := examples/double-irq/main.asm
 DOUBLE_PRG := $(BUILD_DIR)/double-irq.prg
 DOUBLE_LABELS := $(BUILD_DIR)/double-irq.labels
 
-.PHONY: all run run-stable run-double-irq clean
+.PHONY: all run run-stable run-double-irq qualify-double-irq sanity clean
 
 all: $(HELLO_PRG) $(STABLE_PRG) $(DOUBLE_PRG)
 
@@ -38,6 +38,15 @@ run-stable: $(STABLE_PRG)
 
 run-double-irq: $(DOUBLE_PRG)
 	$(VICE) -autostart $(DOUBLE_PRG)
+
+qualify-double-irq: $(DOUBLE_PRG)
+	$(VICE) -moncommands tools/vice/double-irq.mon -autostart $(DOUBLE_PRG)
+
+sanity: all
+	test -s $(HELLO_PRG)
+	test -s $(STABLE_PRG)
+	test -s $(DOUBLE_PRG)
+	grep -q "stable_start" $(DOUBLE_LABELS)
 
 clean:
 	rm -rf $(BUILD_DIR)
