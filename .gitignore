@@ -1,0 +1,8 @@
+build/
+*.prg
+*.d64
+*.d81
+*.crt
+*.labels
+*.map
+*.sym
