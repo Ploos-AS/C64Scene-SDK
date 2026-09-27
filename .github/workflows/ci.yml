@@ -17,8 +17,44 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y 64tass
 
-      - name: Build reference example
+      - name: Build reference examples
         run: make
 
       - name: Show artifacts
         run: ls -l build/
+
+  differential-sceneasm:
+    runs-on: ubuntu-latest
+    env:
+      SCENEASM_COMMIT: 32e11076565153b224dbcd09c9b6a0cce1c13f87
+    steps:
+      - name: Checkout C64Scene
+        uses: actions/checkout@v4
+
+      - name: Checkout pinned SceneASM
+        uses: actions/checkout@v4
+        with:
+          repository: Ploos-AS/SceneASM
+          ref: ${{ env.SCENEASM_COMMIT }}
+          path: .ci/SceneASM
+
+      - name: Install 64tass
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y 64tass
+
+      - name: Build SceneASM
+        run: cargo build --release --manifest-path .ci/SceneASM/Cargo.toml -p sceneasm
+
+      - name: Differential hello-raster
+        env:
+          SCENEASM: ${{ github.workspace }}/.ci/SceneASM/target/release/sceneasm
+        run: make differential-hello
+
+      - name: Preserve differential artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: differential-hello-raster
+          path: build/differential/
+          if-no-files-found: warn
