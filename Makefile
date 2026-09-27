@@ -1,5 +1,7 @@
 ASM ?= 64tass
+ASSEMBLER ?= 64tass
 VICE ?= x64sc
+BUILD = python3 tools/build.py --assembler $(ASSEMBLER)
 BUILD_DIR := build
 
 HELLO_SRC := examples/hello-raster/main.asm
@@ -20,15 +22,15 @@ all: $(HELLO_PRG) $(STABLE_PRG) $(DOUBLE_PRG)
 
 $(HELLO_PRG): $(HELLO_SRC)
 	mkdir -p $(BUILD_DIR)
-	$(ASM) --cbm-prg -Wall -a -B -L $(HELLO_LABELS) -o $(HELLO_PRG) $(HELLO_SRC)
+	$(BUILD) $(HELLO_SRC) -o $(HELLO_PRG) --labels $(HELLO_LABELS)
 
 $(STABLE_PRG): $(STABLE_SRC)
 	mkdir -p $(BUILD_DIR)
-	$(ASM) --cbm-prg -Wall -a -B -L $(STABLE_LABELS) -o $(STABLE_PRG) $(STABLE_SRC)
+	$(BUILD) $(STABLE_SRC) -o $(STABLE_PRG) --labels $(STABLE_LABELS)
 
 $(DOUBLE_PRG): $(DOUBLE_SRC)
 	mkdir -p $(BUILD_DIR)
-	$(ASM) --cbm-prg -Wall -a -B -L $(DOUBLE_LABELS) -o $(DOUBLE_PRG) $(DOUBLE_SRC)
+	$(BUILD) $(DOUBLE_SRC) -o $(DOUBLE_PRG) --labels $(DOUBLE_LABELS)
 
 run: $(HELLO_PRG)
 	$(VICE) -autostart $(HELLO_PRG)
