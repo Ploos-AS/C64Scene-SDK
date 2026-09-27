@@ -1,20 +1,32 @@
 ASM ?= 64tass
 VICE ?= x64sc
 BUILD_DIR := build
-EXAMPLE := examples/hello-raster/main.asm
-PRG := $(BUILD_DIR)/hello-raster.prg
-LABELS := $(BUILD_DIR)/hello-raster.labels
 
-.PHONY: all run clean
+HELLO_SRC := examples/hello-raster/main.asm
+HELLO_PRG := $(BUILD_DIR)/hello-raster.prg
+HELLO_LABELS := $(BUILD_DIR)/hello-raster.labels
 
-all: $(PRG)
+STABLE_SRC := examples/stable-raster/main.asm
+STABLE_PRG := $(BUILD_DIR)/stable-raster.prg
+STABLE_LABELS := $(BUILD_DIR)/stable-raster.labels
 
-$(PRG): $(EXAMPLE)
+.PHONY: all run run-stable clean
+
+all: $(HELLO_PRG) $(STABLE_PRG)
+
+$(HELLO_PRG): $(HELLO_SRC)
 	mkdir -p $(BUILD_DIR)
-	$(ASM) --cbm-prg -Wall -a -B -L $(LABELS) -o $(PRG) $(EXAMPLE)
+	$(ASM) --cbm-prg -Wall -a -B -L $(HELLO_LABELS) -o $(HELLO_PRG) $(HELLO_SRC)
 
-run: $(PRG)
-	$(VICE) -autostart $(PRG)
+$(STABLE_PRG): $(STABLE_SRC)
+	mkdir -p $(BUILD_DIR)
+	$(ASM) --cbm-prg -Wall -a -B -L $(STABLE_LABELS) -o $(STABLE_PRG) $(STABLE_SRC)
+
+run: $(HELLO_PRG)
+	$(VICE) -autostart $(HELLO_PRG)
+
+run-stable: $(STABLE_PRG)
+	$(VICE) -autostart $(STABLE_PRG)
 
 clean:
 	rm -rf $(BUILD_DIR)
