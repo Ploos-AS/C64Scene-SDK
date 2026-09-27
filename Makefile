@@ -81,3 +81,8 @@ clean:
 .PHONY: differential-hello
 differential-hello:
 	python3 tools/differential_build.py examples/hello-raster/main.asm
+
+
+.PHONY: differential-stable
+differential-stable:
+	python3 tools/differential_build.py examples/stable-raster/main.asm
