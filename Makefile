@@ -14,7 +14,7 @@ DOUBLE_SRC := examples/double-irq/main.asm
 DOUBLE_PRG := $(BUILD_DIR)/double-irq.prg
 DOUBLE_LABELS := $(BUILD_DIR)/double-irq.labels
 
-.PHONY: all run run-stable run-double-irq qualify-double-irq qualify-headless timing-adapter-selftest timing-analyzer-selftest sanity clean
+.PHONY: all run run-stable run-double-irq qualify-double-irq qualify-headless probe-double-irq timing-adapter-selftest timing-analyzer-selftest sanity clean
 
 all: $(HELLO_PRG) $(STABLE_PRG) $(DOUBLE_PRG)
 
@@ -44,6 +44,9 @@ qualify-double-irq: $(DOUBLE_PRG)
 
 qualify-headless: $(DOUBLE_PRG)
 	sh tools/vice/qualify-double-irq.sh $(DOUBLE_PRG)
+
+probe-double-irq: $(DOUBLE_PRG)
+	python3 tools/vice/probe_double_irq.py --vice "$(VICE)" --prg $(DOUBLE_PRG)
 
 timing-adapter-selftest:
 	python3 tools/vice/extract_samples.py tools/vice/adapter.example.log --min-samples 4 --output build/qualification/adapter-selftest.csv
