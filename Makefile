@@ -76,3 +76,8 @@ sanity: all
 
 clean:
 	rm -rf $(BUILD_DIR)
+
+
+.PHONY: differential-hello
+differential-hello:
+	python3 tools/differential_build.py examples/hello-raster/main.asm
