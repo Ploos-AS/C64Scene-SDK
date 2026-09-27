@@ -1,0 +1,9 @@
+# C64Scene SDK M1.4 - headless double-IRQ smoke/qualification input
+#
+# This monitor script is intentionally deterministic and non-interactive.
+# It verifies that the image reaches the reference code and captures monitor
+# state. Cycle-stability PASS is assigned only by a parser with sufficient
+# raster/cycle evidence; a successful VICE exit alone is only RUN evidence.
+
+break $080d
+command 1 "r; del 1; x"
