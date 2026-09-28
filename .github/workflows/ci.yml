@@ -26,7 +26,7 @@ jobs:
   differential-sceneasm:
     runs-on: ubuntu-latest
     env:
-      SCENEASM_COMMIT: c5213d8ad4fd695fea72a52416ec968054323f84
+      SCENEASM_COMMIT: 95521941512979434fe1b457b6a76089f27cb74c
     steps:
       - name: Checkout C64Scene
         uses: actions/checkout@v4
