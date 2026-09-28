@@ -26,7 +26,7 @@ jobs:
   differential-sceneasm:
     runs-on: ubuntu-latest
     env:
-      SCENEASM_COMMIT: c0359238ed712f0ea98cd1b177aac0295d3fc3cc
+      SCENEASM_COMMIT: c5213d8ad4fd695fea72a52416ec968054323f84
     steps:
       - name: Checkout C64Scene
         uses: actions/checkout@v4
@@ -56,10 +56,15 @@ jobs:
           SCENEASM: ${{ github.workspace }}/.ci/SceneASM/target/release/sceneasm
         run: make differential-stable
 
+      - name: Differential double-irq
+        env:
+          SCENEASM: ${{ github.workspace }}/.ci/SceneASM/target/release/sceneasm
+        run: make differential-double-irq
+
       - name: Preserve differential artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: differential-hello-raster
+          name: differential-assembler-cases
           path: build/differential/
           if-no-files-found: warn
