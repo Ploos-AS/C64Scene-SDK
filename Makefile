@@ -86,3 +86,8 @@ differential-hello:
 .PHONY: differential-stable
 differential-stable:
 	python3 tools/differential_build.py examples/stable-raster/main.asm
+
+
+.PHONY: differential-double-irq
+differential-double-irq:
+	python3 tools/differential_build.py examples/double-irq/main.asm
