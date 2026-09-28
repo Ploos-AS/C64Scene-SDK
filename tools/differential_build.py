@@ -25,7 +25,8 @@ def main():
     ap.add_argument("--build-dir",default="build/differential")
     a=ap.parse_args()
     source=(ROOT/a.source).resolve()
-    base=ROOT/a.build_dir
+    case=source.parent.name
+    base=ROOT/a.build_dir/case
 
     r64,p64,_=run("64tass",source,base/"64tass")
     rsa,psa,_=run("sceneasm",source,base/"sceneasm")
